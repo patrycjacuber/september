@@ -1,0 +1,10 @@
+SELECT c.*
+FROM cart c
+WHERE c.user_login = :u
+  AND NOT EXISTS (
+    SELECT 1
+    FROM orders o
+    JOIN order_items oi ON oi.order_id = o.id
+    WHERE o.user_login = :u
+      AND oi.product_id = c.product_id
+  )
